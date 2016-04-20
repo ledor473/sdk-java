@@ -1,9 +1,14 @@
 plugins {
   id "nebula.provided-base" version "3.0.3"
+  id "com.jfrog.bintray" version "1.5"
 }
 
+project.ext.groupId = "com.ticketmaster.api"
+project.ext.discoveryVersion = "0.0.1-SNAPSHOT"
 
 subprojects {
+  apply plugin: 'maven'
+  apply plugin: 'maven-publish'
   apply plugin: "java"
   apply plugin: 'nebula.provided-base'
   
@@ -11,7 +16,16 @@ subprojects {
   targetCompatibility = 1.7
   
   repositories {
-    mavenCentral()
+    jcenter()
+  }
+
+  task sourceJar(type: Jar) {
+      from sourceSets.main.allSource
+      classifier = 'sources'
+  }
+  task javadocJar(type: Jar, dependsOn: javadoc) {
+      classifier = 'javadoc'
+      from javadoc.destinationDir
   }
 }
 

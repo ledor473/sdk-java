@@ -7,3 +7,40 @@ dependencies {
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.assertj:assertj-core:2.4.1'
 }
+
+publishing {
+  publications {
+    "_${project.name}_"(MavenPublication) {
+      from components.java
+      groupId project.groupId
+      artifactId 'discovery-model-java'
+      version project.discoveryVersion
+      
+      artifact sourceJar {
+        classifier "sources"
+      }
+      
+      artifact javadocJar {
+        classifier "javadoc"
+      }
+    }
+  }
+}
+
+bintray {
+  user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+  key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+  publications = ['MyPublication']
+  pkg {
+    repo = 'maven'
+    name = 'discovery-model-java'
+    userOrg = 'ticketmaster-api'
+    licenses = ['MIT']
+    vcsUrl = 'https://github.com/ticketmaster/sdk-java'
+    publicDownloadNumbers = true
+    version {
+      name = version
+      desc = description
+    }
+  }
+}

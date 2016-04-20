@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.ticketmaster.api.Version;
 import com.ticketmaster.api.discovery.operation.ByIdOperation;
@@ -49,7 +48,6 @@ public class DiscoveryApi {
     Preconditions.checkNotNull(apiKey, "The API key is mandatory");
     this.apiKey = apiKey;
     this.mapper = new ObjectMapper() //
-        .registerModule(new GuavaModule()) //
         .registerModule(new JodaModule()) //
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     this.pathByType = new HashMap<>();
