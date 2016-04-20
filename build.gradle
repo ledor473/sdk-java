@@ -3,12 +3,8 @@ plugins {
   id "com.jfrog.bintray" version "1.5"
 }
 
-project.ext.groupId = "com.ticketmaster.api"
-project.ext.discoveryVersion = "0.0.1-SNAPSHOT"
-
 subprojects {
   apply plugin: 'maven'
-  apply plugin: 'maven-publish'
   apply plugin: "java"
   apply plugin: 'nebula.provided-base'
   
@@ -19,7 +15,7 @@ subprojects {
     jcenter()
   }
 
-  task sourceJar(type: Jar) {
+  task sourcesJar(type: Jar) {
       from sourceSets.main.allSource
       classifier = 'sources'
   }

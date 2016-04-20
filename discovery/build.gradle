@@ -13,20 +13,37 @@ dependencies {
 	testCompile 'org.slf4j:slf4j-log4j12:1.7.16'
 }
 
-publishing {
-  publications {
-    "_${project.name}_"(MavenPublication) {
-      from components.java
-      groupId project.groupId
-      artifactId 'discovery-java'
-      version project.discoveryVersion
-      
-      artifact sourceJar {
-        classifier "sources"
-      }
-      
-      artifact javadocJar {
-        classifier "javadoc"
+group = 'com.ticketmaster.api'
+version = '0.0.2-SNAPSHOT'
+jar.baseName = 'discovery-java'
+project.ext.name = 'Ticketmaster Discovery SDK - Java'
+project.ext.desc = 'A application used as an example on how to set up pushing  its components to the Central Repository.'
+
+artifacts {
+  archives javadocJar, sourcesJar
+}
+  
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      repository(url: "file:///tmp/")
+      pom.project {
+        name 'Ticketmaster Discovery SDK - Java'
+        description desc
+        url 'http://developer.ticketmaster.com'
+
+        scm {
+          connection 'scm:git:git://github.com/ticketmaster-api/sdk-java.git'
+          developerConnection 'scm:git:ssh://git@github.com/ticketmaster-api/sdk-java.git'
+          url 'https://github.com/ticketmaster-api/sdk-java'
+        }
+
+        licenses {
+          license {
+            name 'The MIT License (MIT)'
+            url 'https://opensource.org/licenses/mit-license.php'
+          }
+        }
       }
     }
   }
@@ -35,7 +52,7 @@ publishing {
 bintray {
   user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
   key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
-  publications = ['MyPublication']
+  configurations = ['archives']
   pkg {
     repo = 'maven'
     name = 'discovery-java'

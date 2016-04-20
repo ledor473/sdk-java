@@ -8,20 +8,31 @@ dependencies {
 	testCompile 'org.assertj:assertj-core:2.4.1'
 }
 
-publishing {
-  publications {
-    "_${project.name}_"(MavenPublication) {
-      from components.java
-      groupId project.groupId
-      artifactId 'discovery-model-java'
-      version project.discoveryVersion
-      
-      artifact sourceJar {
-        classifier "sources"
-      }
-      
-      artifact javadocJar {
-        classifier "javadoc"
+group = 'com.ticketmaster.api'
+version = '0.0.2-SNAPSHOT'
+jar.baseName = 'discovery-model-java'
+  
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      repository(url: "file:///tmp/")
+      pom.project {
+        name 'Ticketmaster Discovery Model - Java'
+        description 'A application used as an example on how to set up pushing  its components to the Central Repository.'
+        url 'http://developer.ticketmaster.com'
+
+        scm {
+          connection 'scm:git:git://github.com/ticketmaster-api/sdk-java.git'
+          developerConnection 'scm:git:ssh://git@github.com/ticketmaster-api/sdk-java.git'
+          url 'https://github.com/ticketmaster-api/sdk-java'
+        }
+
+        licenses {
+          license {
+            name 'The MIT License (MIT)'
+            url 'https://opensource.org/licenses/mit-license.php'
+          }
+        }
       }
     }
   }
@@ -30,7 +41,7 @@ publishing {
 bintray {
   user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
   key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
-  publications = ['MyPublication']
+  configurations = ['archives']
   pkg {
     repo = 'maven'
     name = 'discovery-model-java'
