@@ -25,8 +25,8 @@ subprojects {
   }
 }
 
-project(':discovery') {
+project(':discovery-java') {
     dependencies {
-        compile project(':discovery-model')
+        compile project(':discovery-model-java')
     }
 }
